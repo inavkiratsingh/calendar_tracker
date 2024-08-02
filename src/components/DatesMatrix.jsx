@@ -5,9 +5,9 @@ const DatesMatrix = ({dates,monthIndex}) => {
   return (
     <>
         <div className='flex'>
-            {dates.map((date,indexd) => (
-                <div className='flex flex-col gap-[2px]' key={indexd}>
-                    {date.map((day, index) => {
+            {dates.map(date => (
+                <div className='flex flex-col gap-[2px]'>
+                    {date.map(day => {
                         const formattedMonth = String(monthIndex + 1).padStart(2, '0'); // Ensure two digits
                         const formattedDay = day !== null ? String(day).padStart(2, '0') : '00'; // Ensure two digits
                         const dateStr = day !== null ? `2024-${formattedMonth}-${formattedDay}` : null; // Adjust year if necessary
