@@ -6,7 +6,7 @@ const DailyCompletion = new mongoose.Schema({
         type: String,
         require: true
     },
-    tasksCompleted: [TaskSchema]
+    tasksCompleted: []
 })
 
 const DailyCompletionModel =  (mongoose.models.DailyCompletion || mongoose.model("DailyCompletion", DailyCompletion))

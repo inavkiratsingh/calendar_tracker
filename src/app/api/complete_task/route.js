@@ -7,7 +7,7 @@ export async function POST(request) {
     try {
         await dbConnect();
 
-        const { taskId, completed } = await request.json();
+        const { taskId } = await request.json();
         // console.log(taskId,completed);
         
         const today = new Date();
@@ -26,24 +26,43 @@ export async function POST(request) {
                 message: "Task not found."
             }, {status: 403})
         }
-        
-        
-        const completedOrNot = await DailyCompletionModel.findOne({
-            completedAt: `${new Date().toLocaleString().split(',')[0]}`,
-            tasksCompleted: { $elemMatch: { _id: taskId } }
+
+        const todayUpdation = await DailyCompletionModel.findOne({
+            completedAt: `${new Date().toLocaleString().split(',')[0]}`
         });
-        
-        if(completedOrNot) {
+
+        if(todayUpdation) {
+            console.log('in');
+            
+            const completedOrNot = todayUpdation.tasksCompleted.indexOf(taskId)
+            console.log(completedOrNot);
+            
+
+            if(completedOrNot !== -1) {
+                return NextResponse.json({
+                    success: false,
+                    message: "Task already completed"
+                }, {status: 300})
+            }
+
+
+            const addTask = await DailyCompletionModel.findByIdAndUpdate(
+                todayUpdation._id,
+                { $push: { tasksCompleted: taskId } },
+                { new: true, useFindAndModify: false } // `new: true` returns the updated document
+            );
+
+            await addTask.save();
             return NextResponse.json({
-                success: false,
-                message: "Task already completed"
-            }, {status: 300})
+                success: true,
+                message: "Task completed."
+            }, {status: 200})
         }
-        
+
 
 
         const dailyCompletion = await DailyCompletionModel({
-            tasksCompleted: task,
+            tasksCompleted: taskId,
             completedAt: `${new Date().toLocaleString().split(',')[0]}`
         })
 
