@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
-import TaskModel from "./tasks";
+import { TaskSchema } from "./tasks";
 
 const DailyCompletion = new mongoose.Schema({
     completedAt: {
-        type: Date,
-        require: true,
-        default: Date.now
+        type: String,
+        require: true
     },
-    tasksCompleted: [TaskModel]
+    tasksCompleted: [TaskSchema]
 })
 
 const DailyCompletionModel =  (mongoose.models.DailyCompletion || mongoose.model("DailyCompletion", DailyCompletion))
