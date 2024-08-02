@@ -19,7 +19,7 @@ const months = [
         const startDate = new Date(year, month, 1);
         const endDate = new Date(year, month + 1, 0);
 
-        // Check if the end of the month should be truncated
+        // Determine the last date to fill in for the current month
         const lastDate = month === today.getMonth() ? today.getDate() : endDate.getDate();
 
         let week = 0;
@@ -44,10 +44,17 @@ const months = [
         }
 
         yearCalendar.push(calendar);
+
+        // Stop filling months if the current month is reached
+        if (month === today.getMonth()) {
+            break;
+        }
     }
 
     return yearCalendar;
 };
+
+
 
 
 
@@ -91,11 +98,11 @@ const Calendar = () => {
         //     />
         // </div>
 
-        <div className='bg-zinc-900 p-4 rounded-xl shadow-lg w-full flex gap-5'>
+        <div className='bg-zinc-900 p-4 rounded-xl shadow-lg flex gap-5 items-end justify-end'>
             {dates.map((dates, index) => (
                 <div key={index} className='month-container'>
                     <DatesMatrix dates={dates} monthIndex={index} />
-                    <h2 className='text-zinc-400 text-center text-[8px] font-bold mb-1 mt-1'>{months[index]}</h2>
+                    <h2 className='text-zinc-400 text-center text-sm font-bold mb-1 mt-1'>{months[index]}</h2>
                 </div>
             ))}
         </div>
