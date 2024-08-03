@@ -1,8 +1,9 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CalenderHeader from './CalenderHeader'
 import Weeks from './Weeks'
 import DatesMatrix from './DatesMatrix'
+import axios from 'axios'
 
 const months = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -57,51 +58,35 @@ const months = [
 
 
 
-
-// const generateDates = () => {
-//     const calender = [[]]
-//     const today = new Date()
-//     const month = months[today.getMonth()];
-//     const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-//     const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-//     let week = 0;
-
-//     for(let i=0; i<startDate.getDay(); i++) {
-//         calender[week].push(null)
-//     }
-
-//     for(let i=1; i<= endDate.getDate(); i++) {
-//         if(calender[week].length == 7) {
-//             week++
-//             calender[week] = []
-//         }
-//         calender[week].push(i)
-//     }
-
-//     while(calender[week].length < 7) {
-//         calender[week].push(null);
-//     }
-
-//     return [calender, month];
-// }
-
 const Calendar = () => {
+    const [tasks, settasks] = useState({})
+
+    useEffect(() => {
+        const fetchTask = async (date) => {
+            try {
+                const result = await axios.post('/api/get_tasks', { date });
+                settasks(result.data.tasks);
+            } catch (error) {
+                console.log(error);
+            }
+            
+        }
+    
+        fetchTask(new Date())
+    }, [])
+    
+    
+    
+    // console.log(tasks);
+    
+
     const dates = generateYearDates();
     return (
-        // <div className='bg-zinc-900 p-4 rounded-xl shadow-lg w-full'>
-        //     {/* <CalenderHeader /> */}
-        //     {/* <Weeks /> */}
-        //     <DatesMatrix 
-        //     dates={dates}
-        //     month={month}
-        //     />
-        // </div>
 
         <div className='bg-zinc-900 p-4 rounded-xl shadow-lg flex gap-5 items-end justify-end'>
             {dates.map((dates, index) => (
                 <div key={index} className='month-container'>
-                    <DatesMatrix dates={dates} monthIndex={index} />
+                    <DatesMatrix dates={dates} monthIndex={index} tasks={tasks}/>
                     <h2 className='text-zinc-400 text-center text-sm font-bold mb-1 mt-1'>{months[index]}</h2>
                 </div>
             ))}
