@@ -42,6 +42,7 @@ export default function Home() {
     setIsDrawerOpen(false);
   };
 
+
   // console.log(tasks);
   
   
@@ -88,6 +89,7 @@ export default function Home() {
         <ul>
           <Tasks
           tasks={tasks}
+          change={isDrawerOpen}
           />
         </ul>
       </div>

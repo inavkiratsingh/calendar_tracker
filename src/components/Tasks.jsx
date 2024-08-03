@@ -4,9 +4,10 @@ import { Trash2 } from 'lucide-react'
 import axios from 'axios'
 
 
-const Tasks = ({tasks}) => {
+const Tasks = ({tasks,change}) => {
     
     const [task, setTask] = useState([])
+
 
     const getTasks = async() => {
         try {
@@ -21,7 +22,7 @@ const Tasks = ({tasks}) => {
 
     useEffect(() => {
         getTasks();
-    }, [])
+    }, [change])
 
     const completeTask = async(taskId) => {
         try {
