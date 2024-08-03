@@ -58,22 +58,9 @@ const months = [
 
 
 
-const Calendar = () => {
-    const [tasks, settasks] = useState({})
+const Calendar = ({ tasks }) => {
 
-    useEffect(() => {
-        const fetchTask = async (date) => {
-            try {
-                const result = await axios.post('/api/get_tasks', { date });
-                settasks(result.data.tasks);
-            } catch (error) {
-                console.log(error);
-            }
-            
-        }
     
-        fetchTask(new Date())
-    }, [])
     
     
     
