@@ -4,29 +4,30 @@ import { Trash2 } from 'lucide-react'
 import axios from 'axios'
 
 
-const Tasks = () => {
+const Tasks = ({tasks}) => {
+    
     const [task, setTask] = useState([])
-    useEffect(() => {
-        const getTasks = async() => {
-            try {
-                const result = await axios.post('/api/getTaskData');
-                setTask(result.data.message)
-                
-            } catch (error) {
-                console.log(error);
-                
-            }
+
+    const getTasks = async() => {
+        try {
+            const result = await axios.post('/api/getTaskData');
+            setTask(result.data.message)
+            
+        } catch (error) {
+            console.log(error);
+            
         }
+    }
+
+    useEffect(() => {
         getTasks();
     }, [])
 
     const completeTask = async(taskId) => {
         try {
-            console.log(taskId);
             const complete = await axios.post('/api/complete_task', { taskId, completed:false })
-            getTasks()
         } catch (error) {
-            
+            console.log(error);            
         }
     }
     

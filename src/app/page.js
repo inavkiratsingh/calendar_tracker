@@ -15,12 +15,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AddTaskForm from "@/components/AddTaskForm";
 
 
 
 export default function Home() {
 
   const [tasks, settasks] = useState({})
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     const fetchTask = async (date) => {
@@ -36,11 +38,15 @@ export default function Home() {
     fetchTask(new Date())
   }, [])
 
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
   // console.log(tasks);
   
   
   return (
-    <div className="bg-black w-screen h-screen flex flex-col items-center">
+    <div className="bg-black w-full overflow-y-hidden min-h-screen flex flex-col items-center">
 
       <div className="w-screen flex p-14 justify-end">
         <Calendar tasks={tasks}/>
@@ -51,7 +57,7 @@ export default function Home() {
             <UserCheck />
           </div>
           
-            <Drawer className=''>
+            <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
               <DrawerTrigger>
                 <div className="w-14 h-14 bg-zinc-600 rounded-full text-zinc-200 flex items-center justify-center">
                   <Plus
@@ -65,9 +71,11 @@ export default function Home() {
                   <DrawerHeader>
                     <DrawerTitle className='text-white text-3xl'>Add new Tasks </DrawerTitle>
                     <DrawerDescription>Add your task title and description here ...</DrawerDescription>
+                    <AddTaskForm 
+                    closeDrawer={closeDrawer}
+                    />
                   </DrawerHeader>
                   <DrawerFooter>
-                    <Button>Submit</Button>
                     <DrawerClose>
                       <Button variant="outline">Cancel</Button>
                     </DrawerClose>
@@ -78,7 +86,9 @@ export default function Home() {
 
         </div>
         <ul>
-          <Tasks/>
+          <Tasks
+          tasks={tasks}
+          />
         </ul>
       </div>
     </div>
