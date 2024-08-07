@@ -2,7 +2,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 
-const DatesMatrix = ({dates,monthIndex,tasks}) => {
+const DatesMatrix = ({dates,monthIndex,tasks,load}) => {
     // console.log(dates,monthIndex,tasks);
     // console.log(tasks['8/3/2024']);
 

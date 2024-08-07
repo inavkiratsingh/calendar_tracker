@@ -29,7 +29,19 @@ export async function POST(request) {
 
         const tasksObj = {}
         taskForDate.forEach(task => {
-            tasksObj[task.completedAt] = [task.tasksCompleted.length, task.tasksCompleted.length === 1 ? 'bg-green-950' : (task.tasksCompleted.length === 2 ? 'bg-green-800' : (task.tasksCompleted.length >= 3 ? 'bg-green-600' : 'bg-zinc-800'))];
+            tasksObj[task.completedAt] = 
+            [task.tasksCompleted.length, 
+                task.tasksCompleted.length === 1 
+                ? 'bg-green-950' : 
+                (task.tasksCompleted.length === 2 
+                    ? 'bg-green-800' : 
+                    (task.tasksCompleted.length === 3 
+                        ? 'bg-green-700' : 
+                        (task.tasksCompleted.length === 4 
+                            ? 'bg-green-600' : 
+                            (task.tasksCompleted.length >= 5 
+                                ? 'bg-green-500' : 
+                                'bg-zinc-800'))))];
         });
         
         

@@ -4,7 +4,7 @@ import { Trash2 } from 'lucide-react'
 import axios from 'axios'
 
 
-const Tasks = ({tasks,change}) => {
+const Tasks = ({tasks,change,load}) => {
     
     const [task, setTask] = useState([])
 
@@ -13,10 +13,8 @@ const Tasks = ({tasks,change}) => {
         try {
             const result = await axios.post('/api/getTaskData');
             setTask(result.data.message)
-            
         } catch (error) {
             console.log(error);
-            
         }
     }
 
@@ -26,6 +24,8 @@ const Tasks = ({tasks,change}) => {
 
     const completeTask = async(taskId) => {
         try {
+            load(!load)
+            
             const complete = await axios.post('/api/complete_task', { taskId, completed:false })
         } catch (error) {
             console.log(error);            

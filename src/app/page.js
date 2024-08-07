@@ -22,9 +22,22 @@ import AddTaskForm from "@/components/AddTaskForm";
 export default function Home() {
 
   const [tasks, settasks] = useState({})
+  const [load, setLoad] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const loadi = () => {
+    console.log("before change",load);
+    
+    setLoad(!load)
+
+    console.log("after change",load);
+    
+  }
+
   useEffect(() => {
+
+    console.log(load);    
+    
     const fetchTask = async (date) => {
         try {
             const result = await axios.post('/api/get_tasks', { date });
@@ -36,7 +49,7 @@ export default function Home() {
     }
 
     fetchTask(new Date())
-  }, [])
+  }, [load])
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
@@ -50,7 +63,7 @@ export default function Home() {
     <div className="bg-black w-full overflow-y-hidden min-h-screen flex flex-col items-center">
 
       <div className="w-screen flex p-14 justify-end">
-        <Calendar tasks={tasks}/>
+        <Calendar tasks={tasks} load={load}/>
       </div>
       <div className="w-[400px]">
         <div className='flex justify-between py-5 px-5'>
@@ -90,6 +103,7 @@ export default function Home() {
           <Tasks
           tasks={tasks}
           change={isDrawerOpen}
+          load={loadi}
           />
         </ul>
       </div>
